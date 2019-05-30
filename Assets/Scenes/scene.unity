@@ -152,9 +152,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d19a990681b4342ac9cad372fc7501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  relativeSpeedFeedback: 0.02
-  traction: 0.02
-  maxSpeed: 0.1
+  relativeSpeedFeedback: 0.1
+  traction: 1
+  maxSpeed: 4
+  colliding: 0
 --- !u!50 &212147526
 Rigidbody2D:
   serializedVersion: 4
