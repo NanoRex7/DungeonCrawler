@@ -24,20 +24,24 @@ public class ModelRoot : MonoBehaviour
             int yInt = (int)((transform.parent?.position.y ?? 0) * 100);
 
             // Insert negative y coordinate and layer number into one value
-            transform.GetChild(i).GetComponent<SpriteRenderer>().sortingOrder = 
-                yInt * -100 + (transform.childCount - i - 1);
+            SpriteRenderer spriteRenderer = transform.GetChild(i)
+                .GetComponent<SpriteRenderer>();
+
+            if (spriteRenderer != null)
+                spriteRenderer.sortingOrder = 
+                    yInt * -100 + (transform.childCount - i - 1);
         }
     }
 
     private void LateUpdate()
     {
-        // Effectively ignore rotation when determining position by rotating
-        // the position vector using the negative object rotation
-        transform.localPosition = 
-            Quaternion.Euler(0, 0, -transform.eulerAngles.z) *
-            new Vector2(0, verticalOffset);
+        // Calculate intended local y coordinate based on vertical offset
+        // and parent Z coordinate
+        float y = verticalOffset + (transform.parent?.position.z * 0.5f) ?? 0;
 
-        // Fix the local rotation
-        transform.localRotation = Quaternion.identity;
+        // Ignore any rotation of the parent when applying y coordinate
+        transform.localPosition = Quaternion.Inverse(
+            transform.parent?.rotation ?? Quaternion.identity) * 
+            new Vector2(0, y);
     }
 }

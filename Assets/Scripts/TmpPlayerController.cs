@@ -23,17 +23,28 @@ public class TmpPlayerController : MonoBehaviour
         foreach (Animator a in GetComponentsInChildren<Animator>())
             a.SetFloat("speed", body.velocity.magnitude * walkSpeedFactor);
 
+        /*
+        // Face direction of movement 
+        
         if (body.velocity.sqrMagnitude > 0.01)
         {
             float p = 180f / Mathf.PI * Mathf.Atan2(body.velocity.y, body.velocity.x);
             Quaternion angle = Quaternion.Euler(new Vector3(0, 0, p));
 
             transform.localRotation = angle;
-            //transform.Rotate(0, 0, p, Space.Self);
-
-            //body.MoveRotation(angle);
-            //Debug.Log(transform.eulerAngles);
         }
+        */
+
+        // Face cursor
+        Vector3 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        pz.z = 0;
+
+        Vector3 d = pz - transform.position;
+
+        float p = 180f / Mathf.PI * Mathf.Atan2(d.y, d.x);
+        Quaternion angle = Quaternion.Euler(new Vector3(0, 0, p));
+
+        transform.localRotation = angle;
 
         if (Input.GetKeyDown("space"))
             transform.GetChild(0).GetComponent<Animator>().SetTrigger("doMeleeAttack");
