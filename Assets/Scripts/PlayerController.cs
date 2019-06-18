@@ -4,18 +4,57 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb2d;
-    public float speed;
+    Rigidbody2D body;
 
-    void Start() {
-        rb2d = GetComponent<Rigidbody2D>();
+    public int speed;
+    public float walkAnimSpeedFactor;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        body = GetComponent<Rigidbody2D>();
     }
 
-    // Called before 
-    void Update() {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical) * speed;
-        rb2d.velocity = movement;
+    // Update is called once per frame
+    void Update()
+    {
+        // Set velocity
+        body.velocity = speed * 
+            new Vector2(
+                Input.GetAxis("Horizontal"), 
+                Input.GetAxis("Vertical"))
+                .normalized;
+
+        // Set animation speed
+        foreach (Animator a in GetComponentsInChildren<Animator>())
+            a.SetFloat("speed", body.velocity.magnitude * walkAnimSpeedFactor);
+
+        /*
+        // Face direction of movement 
+        
+        if (body.velocity.sqrMagnitude > 0.01)
+        {
+            float eulerZ = 180f / Mathf.PI * Mathf.Atan2(body.velocity.y, body.velocity.x);
+            Quaternion angle = Quaternion.Euler(new Vector3(0, 0, eulerZ));
+
+            transform.localRotation = angle;
+        }
+        */
+
+        // Face cursor
+        Vector3 cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        cursor.z = 0;
+
+        Vector3 delta = cursor - transform.position;
+
+        float p = 180f / Mathf.PI * Mathf.Atan2(delta.y, delta.x);
+        Quaternion angle = Quaternion.Euler(new Vector3(0, 0, p));
+
+        transform.localRotation = angle;
+
+        /*
+        if (Input.GetKeyDown("space"))
+            transform.GetChild(0).GetComponent<Animator>().SetTrigger("doMeleeAttack");
+        */
     }
 }
