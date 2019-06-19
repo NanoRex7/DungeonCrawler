@@ -41,12 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
+  - name: Floor
     uniqueID: 2063764157
     locked: 0
-  - name: Pickups
-    uniqueID: 2752843601
+  - name: Shadows
+    uniqueID: 1923475705
     locked: 0
-  - name: Player
+  - name: EntitiesWalls
     uniqueID: 2108072681
     locked: 0

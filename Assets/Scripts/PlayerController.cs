@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D rb2d;
+    private Rigidbody2D body;
     private Vector2 velocity;
     private Collision coll;
 
     public float relativeSpeedFeedback; // 0.01f in java game
     public float traction; // 0.01f in java game
     public float maxSpeed; // 0.04f in java game
+    public int speed;
+    public float walkAnimSpeedFactor;
 
     public bool colliding;
 
     void Start() {
-        rb2d = GetComponent<Rigidbody2D>();
-        rb2d.drag = 0;
+        body = GetComponent<Rigidbody2D>();
+        body.drag = 0;
         velocity = new Vector2();
     }
 
@@ -38,8 +40,22 @@ public class PlayerController : MonoBehaviour
         if (velocity.magnitude < 1)
             velocity.Set(0, 0);
 
-        rb2d.velocity = velocity;
+        body.velocity = velocity;
         //rb2d.MovePosition(rb2d.position + velocity);
-    }
 
+        // Set animation speed
+        foreach (Animator a in GetComponentsInChildren<Animator>())
+            a.SetFloat("speed", body.velocity.magnitude * walkAnimSpeedFactor);
+
+        // Face cursor
+        Vector3 cursor = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        cursor.z = 0;
+
+        Vector3 delta = cursor - transform.position;
+
+        float p = 180f / Mathf.PI * Mathf.Atan2(delta.y, delta.x);
+        Quaternion angle = Quaternion.Euler(new Vector3(0, 0, p));
+
+        transform.localRotation = angle;
+    }
 }
