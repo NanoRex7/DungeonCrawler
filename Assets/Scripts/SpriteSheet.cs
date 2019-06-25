@@ -31,6 +31,31 @@ public class SpriteSheet : ScriptableObject
                 AssetDatabase.LoadAllAssetRepresentationsAtPath(
                     AssetDatabase.GetAssetPath(value));
 
+            // Only execute if each tile is the same size and aligned with no 
+            // padding
+            if (sprites1d == null || sprites1d.Length == 0)
+            {
+                Debug.Log("No sprites found on \"" + value.name + "\"");
+                return;
+            }
+
+            Vector2Int tileSize = new Vector2Int(
+                (int)((Sprite)sprites1d[0]).rect.width,
+                (int)((Sprite)sprites1d[0]).rect.height);
+
+            for (int i = 0; i < sprites1d.Length; i++)
+            {
+                Rect rect = ((Sprite)sprites1d[i]).rect;
+                if (rect.width != tileSize.x || rect.x % rect.width != 0 ||
+                    rect.height != tileSize.y || rect.y % rect.height != 0)
+                {
+                    Debug.Log("\"" + value.name + "\" is not sliced properly " + 
+                        "for a sprite sheet. Ensure the texture is sliced into " +
+                        "a grid with no offset and no padding.");
+                    return;
+                }
+            }
+
             // Parallel array of coordinates of a sprite on the sprite sheet
             Vector2Int[] coords = new Vector2Int[sprites1d.Length];
 
@@ -72,8 +97,8 @@ public class SpriteSheet : ScriptableObject
     public Sprite GetSprite(int column, int row)
     {
         if (sprites == null ||
-            column < 0 || column >= sprites.GetLength(0) ||
-            row < 0 || row >= sprites.GetLength(1))
+            column < 0 || column >= Columns ||
+            row < 0 || row >= Rows)
             return null;
 
         return sprites[column, row];
@@ -91,7 +116,7 @@ class SpriteSheetEditor : Editor
     public override void OnInspectorGUI()
     {
         Texture2D newTexture = (Texture2D)EditorGUILayout.ObjectField(
-            "Sprite Sheet Texture", spriteSheet.Texture, 
+            "Grid-Sliced Texture", spriteSheet.Texture, 
             typeof(Texture2D), false, null);
 
         // If texture is a new texture, set the new texture
