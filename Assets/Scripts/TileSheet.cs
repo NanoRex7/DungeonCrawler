@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Sprite Sheet",
+[CreateAssetMenu(fileName = "New Tile Sheet",
     menuName = "Custom Assets/Tile Sheet")]
 public class TileSheet : SpriteSheet
 {

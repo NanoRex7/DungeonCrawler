@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // Wrapper for SpriteSheet to make member names more appropriate
-[CreateAssetMenu(fileName = "New Sprite Sheet",
+[CreateAssetMenu(fileName = "New Entity Sprite Sheet",
     menuName = "Custom Assets/Entity Sprite Sheet")]
 public class EntitySpriteSheet : SpriteSheet
 {
