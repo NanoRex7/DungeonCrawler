@@ -179,7 +179,8 @@ class SpriteSheetEditor : Editor
         int w = spriteSheet.SpriteSize.x * 2;
         int h = spriteSheet.SpriteSize.y * 2;
         Texture2D preview = new Texture2D(w, h);
-        Graphics.CopyTexture(spriteSheet.Texture, 0, 0, 0, 0, w, h, 
+        Graphics.CopyTexture(spriteSheet.Texture, 0, 0, 
+            0, spriteSheet.Texture.height - h, w, h, 
             preview, 0, 0, 0, 0);
         return preview;
     }
