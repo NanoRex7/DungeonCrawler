@@ -171,6 +171,18 @@ class SpriteSheetEditor : Editor
             spriteSheet.RecreateSprites();
         }
     }
+
+    // Renders asset icon
+    public override Texture2D RenderStaticPreview(string assetPath, 
+        Object[] subAssets, int width, int height)
+    {
+        int w = spriteSheet.SpriteSize.x * 2;
+        int h = spriteSheet.SpriteSize.y * 2;
+        Texture2D preview = new Texture2D(w, h);
+        Graphics.CopyTexture(spriteSheet.Texture, 0, 0, 0, 0, w, h, 
+            preview, 0, 0, 0, 0);
+        return preview;
+    }
 }
 
 /*
