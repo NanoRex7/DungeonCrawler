@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float relativeSpeedFeedback; // 0.01f in java game
     public float traction; // 0.01f in java game
     public float maxSpeed; // 0.04f in java game
-    public int speed;
+    public float minSpeed;
     public float walkAnimSpeedFactor;
 
     public bool colliding;
@@ -30,15 +30,15 @@ public class PlayerController : MonoBehaviour
         // raw directional input from the player
         Vector2 direction = new Vector2(moveHorizontal, moveVertical).normalized;
 
-        direction += (-velocity * relativeSpeedFeedback / maxSpeed);
+        direction += (-velocity.normalized * relativeSpeedFeedback);// / maxSpeed);
         direction.Normalize();
 
         velocity += direction * traction;
 
         if (velocity.magnitude > maxSpeed)
             velocity *= maxSpeed / velocity.magnitude;
-        if (velocity.magnitude < 1)
-            velocity.Set(0, 0);
+        else if (velocity.magnitude < minSpeed)
+            velocity = new Vector2(0, 0);
 
         body.velocity = velocity;
         //rb2d.MovePosition(rb2d.position + velocity);
