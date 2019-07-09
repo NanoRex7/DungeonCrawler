@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D body;
 
-    public int speed;
     public float walkAnimSpeedFactor;
     public float relativeSpeedFeedback;
     public float traction;
