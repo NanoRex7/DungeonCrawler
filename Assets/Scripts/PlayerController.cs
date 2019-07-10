@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public float relativeSpeedFeedback;
     public float traction;
     public float maxSpeed;
+    public GameObject colliderObject;
 
     private Vector2 velocity;
 
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        body.drag = 0;
+        //BoxCollider2D collider1 = colliderObject.GetComponent<BoxCollider2D>();
         velocity = new Vector2();
     }
 
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
             velocity.Set(0, 0);
 
         body.velocity = velocity;
+        //colliderObject.transform.rotation = new Quaternion(0, 0, 0, 1);
 
         // Set animation speed
         foreach (Animator a in GetComponentsInChildren<Animator>())
