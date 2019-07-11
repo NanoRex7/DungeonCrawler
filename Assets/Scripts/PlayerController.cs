@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
         float p = 180f / Mathf.PI * Mathf.Atan2(delta.y, delta.x);
         Quaternion angle = Quaternion.Euler(new Vector3(0, 0, p));
 
-        transform.localRotation = angle;
+        transform.GetChild(0).localRotation = angle;
 
         /*
         if (Input.GetKeyDown("space"))
