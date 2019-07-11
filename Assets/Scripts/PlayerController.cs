@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        body = GetComponent<Rigidbody2D>();
+        body = GetComponentInParent<Rigidbody2D>();
         body.drag = 0;
         velocity = new Vector2();
     }
