@@ -143,6 +143,7 @@ public class CameraTargetController : MonoBehaviour
     public int MOVE_SIZE;
     private Rigidbody2D body;
     RunningAverage<Vector2> lookAverage, moveAverage;
+    RunningAverage<float> lookMagnitudeAverage, moveMagnitudeAverage;
     private GameObject rotatingObject;
     public Vector2 display;
 
@@ -153,6 +154,8 @@ public class CameraTargetController : MonoBehaviour
         // TODO @Jordan use some multiple of the frame rate here
         lookAverage = new RunningAverage<Vector2>(new Vector2(0, 0), LOOK_SIZE);
         moveAverage = new RunningAverage<Vector2>(new Vector2(0, 0), MOVE_SIZE);
+        //lookMagnitudeAverage = new RunningAverage<float>(0, 3 * LOOK_SIZE);
+        moveMagnitudeAverage = new RunningAverage<float>(1, 3 * MOVE_SIZE);
         rotatingObject = transform.parent.GetChild(0).gameObject;
     }
 
@@ -161,8 +164,10 @@ public class CameraTargetController : MonoBehaviour
     {
         float theta = rotatingObject.transform.rotation.eulerAngles.z;
         lookAverage.Add(new Vector2(Mathf.Cos(Mathf.Deg2Rad * theta), Mathf.Sin(Mathf.Deg2Rad * theta)));
+        //lookMagnitudeAverage.Add(lookAverage.Average().magnitude);
         moveAverage.Add(body.velocity.normalized);
-        transform.localPosition = LOOK_WEIGHT * lookAverage.Average() * (1 - moveAverage.Average().magnitude)
+        moveMagnitudeAverage.Add(moveAverage.Average().magnitude);
+        transform.localPosition = LOOK_WEIGHT * lookAverage.Average() * (1 - moveMagnitudeAverage.Average())
             + MOVE_WEIGHT * moveAverage.Average();
         display = new Vector2(Mathf.Cos(Mathf.Deg2Rad * theta), Mathf.Sin(Mathf.Deg2Rad * theta));
     }

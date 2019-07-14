@@ -443,7 +443,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 144706325}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &544956742
+--- !u!43 &154956807
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -845,7 +845,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 544956742}
+      objectReference: {fileID: 154956807}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca9d3f960368b8c4fb5a514642aad95d, type: 3}
 --- !u!4 &679951088 stripped
@@ -5178,7 +5178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deabf43225574fe4faee621135958a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LOOK_WEIGHT: 6
+  LOOK_WEIGHT: 25
   MOVE_WEIGHT: 20
   LOOK_SIZE: 60
   MOVE_SIZE: 40
